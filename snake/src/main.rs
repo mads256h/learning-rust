@@ -110,22 +110,21 @@ fn main() {
 
     loop {
         let ch = wgetch(win);
-        let some = Some(ch);
 
-        match some {
-            Some(KEY_UP) => {
+        match ch {
+            KEY_UP => {
                 ply.move_up();
             }
-            Some(KEY_DOWN) => {
+            KEY_DOWN => {
                 ply.move_down();
             }
-            Some(KEY_RIGHT) => {
+            KEY_RIGHT => {
                 ply.move_right();
             }
-            Some(KEY_LEFT) => {
+            KEY_LEFT => {
                 ply.move_left();
             }
-            Some(113) => {
+            113 => {
                 break;
             }
             _ => {
