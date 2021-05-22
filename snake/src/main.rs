@@ -1,4 +1,5 @@
 use ncurses::*;
+use std::ops::Add;
 
 #[derive(Debug, Copy, Clone)]
 struct Vector {
@@ -9,6 +10,14 @@ struct Vector {
 impl Vector {
     fn new(x: i32, y: i32) -> Vector {
         return Vector { x, y };
+    }
+}
+
+impl Add for Vector {
+    type Output = Self;
+
+    fn add(self, other: Self) -> Self {
+        return Self::new(self.x + other.x, self.y + other.y);
     }
 }
 
@@ -53,34 +62,30 @@ impl Player {
 
     fn move_up(&mut self) {
         let h = self.head();
+        const UP: Vector = Vector { x: 0, y: -1 };
 
-        let up = Vector::new(h.x, h.y - 1);
-
-        self.move_to(up);
+        self.move_to(h + UP);
     }
 
     fn move_down(&mut self) {
         let h = self.head();
+        const DOWN: Vector = Vector {x:0, y: 1};
 
-        let down = Vector::new(h.x, h.y + 1);
-
-        self.move_to(down);
+        self.move_to(h + DOWN);
     }
 
     fn move_right(&mut self) {
         let h = self.head();
+        const RIGHT: Vector = Vector {x: 1, y: 0};
 
-        let right = Vector::new(h.x + 1, h.y);
-
-        self.move_to(right);
+        self.move_to(h + RIGHT);
     }
 
     fn move_left(&mut self) {
         let h = self.head();
+        const LEFT: Vector = Vector {x: -1, y: 0};
 
-        let left = Vector::new(h.x - 1, h.y);
-
-        self.move_to(left);
+        self.move_to(h + LEFT);
     }
 
     fn head(&self) -> Vector {
