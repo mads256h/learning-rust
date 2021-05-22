@@ -30,6 +30,12 @@ impl Player {
     fn move_to(&mut self, position: Vector) {
         let pos_len = self.positions.len();
         let last_pos = self.positions[pos_len - 1];
+        let bounds = get_bounds(self.win);
+
+        if position.x < 0 || position.y < 0 || position.x >= bounds.x || position.y >= bounds.y {
+            return;
+        }
+
         wmove(self.win, last_pos.y, last_pos.x);
         addstr(" ");
 
@@ -94,7 +100,15 @@ fn get_bounds(win: WINDOW) -> Vector {
 fn main() {
     let win = initscr();
     let mut ply = Player {
-        positions: vec![Vector::new(6, 0), Vector::new(5, 0), Vector::new(4, 0), Vector::new(3, 0), Vector::new(2, 0), Vector::new(1, 0), Vector::new(0, 0)],
+        positions: vec![
+            Vector::new(6, 0),
+            Vector::new(5, 0),
+            Vector::new(4, 0),
+            Vector::new(3, 0),
+            Vector::new(2, 0),
+            Vector::new(1, 0),
+            Vector::new(0, 0),
+        ],
         win,
     };
 
@@ -103,8 +117,6 @@ fn main() {
     keypad(win, true);
     wtimeout(win, 16);
     curs_set(CURSOR_VISIBILITY::CURSOR_INVISIBLE);
-
-    let bounds = get_bounds(win);
 
     ply.full_render();
 
@@ -128,7 +140,7 @@ fn main() {
                 break;
             }
             _ => {
-//                addstr(&format!("char {}\n", ch));
+                //                addstr(&format!("char {}\n", ch));
             }
         }
     }
